@@ -1,77 +1,46 @@
 /**
  * Created by kristinataneva on 8/29/17.
  */
-var express = require('express');
-var index = express();
-var bodyParser = require('body-parser');
-var mongoose = require('mongoose');
-Congestion = require('./congestion');
+
+const express = require('express'),
+    bodyParser = require('body-parser'),
+    router = require('./router/index'),
+    db = require('./config/db');
+
+const app = express();
+const PORT = 3000;
 
 
-index.use(bodyParser.json());
+app.use(bodyParser.json());
 // Add headers
-index.use(function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT ,DELETE');
+app.use((req, res, next) => {
+    //res.header("Access-Control-Allow-Origin", "*");
+    //res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    //res.header('Access-Control-Allow-Methods', 'GET, POST, PUT ,DELETE');
+    res.header('Content-Type', 'application/json');
     // Pass to next layer of middleware
     next();
 });
 
+router(app,db);
 
-//connect to Mongoose
-mongoose.connect('mongodb://test:test@ds111124.mlab.com:11124/traffic_db');
-
-var db=mongoose.connection;
-index.get('/', function (req,res) {
-    // body...
-    res.send('go to /api/congestion');
-});
-
-//http get request
-index.get('/api/congestion', function(req, res){
-    //var user = req.query.param;
-    //console.dir(user);
-    //Movie.getMovie(user, function(err, movie){
-    //    if(err){
-    //        throw err;
-    //    }
-    //    res.json(movie);
-    //});
-    Congestion.find( function(err) {
-        if(err){
-            console.log(err);
-        } else{
-           return res;
-        }
+//drop and resync with { force: true }
+db.sequelize.sync({
+//  force: true,
+    logging: console.log
+}).then(() => {
+    app.listen(PORT, () => {
+        console.log('Express listening on port:', PORT);
+        //db.traffic.destroy({
+        //    where: {
+        //        id:6
+        //    }
+        //});
     });
-
+}).catch((error) => {
+    console.log(error);
 });
 
-index.get('/api/congestion/:id', function(req, res){
-    //Movie.getMovieById(req.params.id, function(err, movie){
-    //    if(err){
-    //        res.send(err);
-    //    }
-    //    res.json(movie);
-    //});
-});
-
-//http post request
-index.post('/api/congestion', function(req, res){
-    //console.dir(req.body.userId);
-    //console.dir(req.body.Search);
-    //var user = req.body.userId;
-    //var movie = req.body.Search;
-    //Movie.addMovie(user, movie, function(err, movie){
-    //    if(err){
-    //        res.send(err);
-    //    }
-    //    res.json(movie);
-    //});
-});
-
-
-index.listen(3000);
-console.log('running on port 3000...');
+//app.listen(3000);
+//console.log('running on port 3000...');
 

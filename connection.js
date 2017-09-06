@@ -30,24 +30,29 @@ const sequelize = new Sequelize('Congestion', 'root', '', {
     }
 });
 
-//sequelize
-//    .authenticate()
-//    .then(() => {
-//        console.log('Connection has been established successfully.');
-//    })
-//    .catch(err => {
-//        console.error('Unable to connect to the database:', err);
-//    });
+sequelize
+    .authenticate()
+    .then(() => {
+        console.log('Connection has been established successfully.');
+    })
+    .catch(err => {
+        console.error('Unable to connect to the database:', err);
+    });
 
+
+//defining the model
 const Traffic = sequelize.define('traffic', {
     name: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
     },
     latitude: {
-        type: Sequelize.FLOAT
+        type: Sequelize.FLOAT,
+        allowNull: false
     },
     longtitude: {
-        type: Sequelize.FLOAT
+        type: Sequelize.FLOAT,
+        allowNull: false
     }
 });
 
@@ -74,16 +79,21 @@ Traffic.findById(2).then(t => {
 
 
 // force: true will drop the table if it already exists
-//Traffic.sync({force: true}).then(() => {
-//    // Table created
-//    return Traffic.create({
-//        name: 'Accident',
-//        latitude: '43.222',
-//        longtitude: '12.1222'
-//    }, {
-//            name: 'Road Construction',
-//            latitude: '45.222',
-//            longtitude: '10.1222'
-//        }
-//    );
-//});
+Traffic.sync({
+   // force: true,
+    logging: console.log
+ }).then(() => {
+    // Table created
+    //return Traffic.create({
+    //    name: 'Accident',
+    //    latitude: '43.222',
+    //    longtitude: '12.1222'
+    //}, {
+    //        name: 'Road Construction',
+    //        latitude: '45.222',
+    //        longtitude: '10.1222'
+    //    }
+    //);
+}).catch((error) => {
+    console.log(error);
+});
