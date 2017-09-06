@@ -14,9 +14,6 @@ const PORT = 3000;
 app.use(bodyParser.json());
 // Add headers
 app.use((req, res, next) => {
-    //res.header("Access-Control-Allow-Origin", "*");
-    //res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    //res.header('Access-Control-Allow-Methods', 'GET, POST, PUT ,DELETE');
     res.header('Content-Type', 'application/json');
     // Pass to next layer of middleware
     next();
@@ -31,16 +28,7 @@ db.sequelize.sync({
 }).then(() => {
     app.listen(PORT, () => {
         console.log('Express listening on port:', PORT);
-        //db.traffic.destroy({
-        //    where: {
-        //        id:6
-        //    }
-        //});
     });
 }).catch((error) => {
     console.log(error);
 });
-
-//app.listen(3000);
-//console.log('running on port 3000...');
-

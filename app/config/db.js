@@ -9,8 +9,7 @@ const sequelize = new Sequelize('Congestion', 'root', '', {
     dialect: 'mysql',
 });
 
-// Connecting all the models/tables in the database to a db object,
-//so everything is accessible via one object
+// Connecting all the models/tables in the database to a db object, so that everything is accessible via one object
 const db = {};
 
 db.Sequelize = Sequelize;
