@@ -27,11 +27,13 @@ module.exports = (app, db) => {
         const name = req.body.name;
         const latitude = req.body.latitude;
         const longtitude = req.body.longtitude;
+        const address = req.body.address;
 
         db.traffic.create({
             name:name,
             latitude:latitude,
-            longtitude:longtitude
+            longtitude:longtitude,
+            address: address
         })
             .then(newTraffic => {
                 res.json(newTraffic)

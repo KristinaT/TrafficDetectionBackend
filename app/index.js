@@ -23,7 +23,7 @@ router(app,db);
 
 //drop and resync with { force: true }
 db.sequelize.sync({
-//  force: true,
+  //force: true,
     logging: console.log
 }).then(() => {
     app.listen(PORT, () => {

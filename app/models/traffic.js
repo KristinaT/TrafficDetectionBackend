@@ -9,6 +9,7 @@ module.exports = function(sequelize, DataTypes) {
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
+            autoIncrement: true
            // allowNull: false
         },
         name: {
@@ -22,6 +23,10 @@ module.exports = function(sequelize, DataTypes) {
         longtitude: {
             type: DataTypes.FLOAT,
             allowNull: false
+        },
+        address:{
+            type: DataTypes.STRING,
+            allowNull: true
         }
     });
     return Traffic;
